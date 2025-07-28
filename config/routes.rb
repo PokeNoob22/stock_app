@@ -1,14 +1,34 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  # Devise routes
+  devise_for :users, path: '', path_names: { sign_in: 'login', sign_out: 'logout' }
+  devise_for :admins, path: 'admin', path_names: { sign_in: 'login', sign_out: 'logout' }
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  # Admin-only namespace
+  namespace :admin do
+    get 'dashboard', to: 'dashboard#index'
+  end
+
+  # User-only namespace
+  namespace :users do
+    get 'dashboard', to: 'dashboard#index'
+  end
+
+  # Redirect based on role
+  authenticated :admin do
+    root to: 'admin/dashboard#index', as: :admin_root
+  end
+
+  authenticated :user do
+    root to: 'users/dashboard#index', as: :user_root
+  end
+
+  # Fallback for not logged-in users
+  unauthenticated do
+    root to: redirect('/login')
+  end
+
+  # Health and PWA (unchanged)
   get "up" => "rails/health#show", as: :rails_health_check
-
-  # Render dynamic PWA files from app/views/pwa/*
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-
-  # Defines the root path route ("/")
-  # root "posts#index"
 end
