@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin Panel</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body>
+    <header>
+      <h1>Admin Panel</h1>
+    </header>
+
+    <main>
+      <%= yield %>
+    </main>
+  </body>
+</html>
