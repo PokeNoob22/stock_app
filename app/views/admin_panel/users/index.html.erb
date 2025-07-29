@@ -1,11 +1,20 @@
 <h1>All Users</h1>
 
+<% if notice %>
+  <p class="flash notice"><%= notice %></p>
+<% end %>
+
+<% if alert %>
+  <p class="flash alert"><%= alert %></p>
+<% end %>
+
 <table border="1" cellpadding="10">
   <thead>
     <tr>
       <th>ID</th>
       <th>Email</th>
       <th>Created At</th>
+      <th>Official Trader</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -16,11 +25,11 @@
         <td><%= user.email %></td>
         <td><%= user.created_at.strftime('%Y-%m-%d %H:%M') %></td>
         <td>
+          <%= button_to user.official_trader || "Pending", toggle_trader_status_admin_panel_user_path(user), method: :patch, class: "trader-toggle-button" %>
+        </td>
+        <td>
           <%= link_to 'Edit', edit_admin_panel_user_path(user) %> |
-          <%= button_to 'Delete', admin_panel_user_path(user),
-                method: :delete,
-                data: { confirm: 'Are you sure?' },
-                form: { style: 'display:inline' } %>
+          <%= link_to 'Delete', admin_panel_user_path(user), method: :delete, data: { confirm: 'Are you sure?' } %>
         </td>
       </tr>
     <% end %>

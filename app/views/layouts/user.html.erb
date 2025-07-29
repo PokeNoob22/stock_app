@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>User Panel</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+  </head>
+  <body>
+    <header>
+      <div><h2>User Dashboard</h2></div>
+      <nav>
+        <%= link_to "Stocks", users_stocks_path %>
+        <%= button_to "Log out", destroy_user_session_path, method: :delete, class: "btn btn-danger" %>
+      </nav>
+    </header>
+
+    <% if notice %>
+      <p class="flash notice"><%= notice %></p>
+    <% end %>
+
+    <% if alert %>
+      <p class="flash alert"><%= alert %></p>
+    <% end %>
+
+    <main>
+      <%= yield %>
+    </main>
+  </body>
+</html>

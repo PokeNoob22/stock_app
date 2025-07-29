@@ -1,24 +1,26 @@
 Rails.application.routes.draw do
-  # Updated Devise routes for users to use your custom registrations controller
-  devise_for :users, controllers: {
-    registrations: 'users/registrations'
-  }, path: '', path_names: { sign_in: 'login', sign_out: 'logout' }
+  # Devise routes
+  devise_for :users, path: '', path_names: { sign_in: 'login', sign_out: 'logout' }
 
-  # Devise routes for admins
   devise_for :admins,
     path: 'admin',
     path_names: { sign_in: 'login', sign_out: 'logout' },
     controllers: { sessions: 'admin_panel/sessions' }
 
-  # Admin-only namespace
+  # Admin-only namespace 
   namespace :admin_panel do
     get 'dashboard', to: 'dashboard#index'
-    resources :users, except: [:show]
+    resources :users, except: [:show] do
+      member do
+        patch :toggle_trader_status
+      end
+    end
   end
 
   # User-only namespace
   namespace :users do
     get 'dashboard', to: 'dashboard#index'
+    get 'stocks', to: 'stocks#index'
   end
 
   # Authenticated roots
@@ -30,12 +32,12 @@ Rails.application.routes.draw do
     root to: 'users/dashboard#index', as: :authenticated_user_root
   end
 
-  # Default unauthenticated root
+  # Default public landing page
   unauthenticated do
     root to: 'home#index'
   end
 
-  # Health and PWA routes
+  # Health and PWA (unchanged)
   get "up" => "rails/health#show", as: :rails_health_check
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
