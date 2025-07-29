@@ -37,9 +37,16 @@ module AdminPanel
     end
 
     def toggle_trader_status
-      @user.official_trader = @user.official_trader == "Approved" ? "Pending" : "Approved"
-      @user.save
-      redirect_to admin_panel_users_path, notice: "Trader status updated."
+      was_pending = @user.official_trader == "Pending"
+      @user.official_trader = was_pending ? "Approved" : "Pending"
+
+      if @user.save
+        # Only send email if status changed from Pending to Approved
+        UserMailer.approved_trader_email(@user).deliver_now if was_pending
+        redirect_to admin_panel_users_path, notice: "Trader status updated."
+      else
+        redirect_to admin_panel_users_path, alert: "Failed to update trader status."
+      end
     end
 
     private
