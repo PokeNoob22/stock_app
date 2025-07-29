@@ -1,0 +1,50 @@
+<h1>All Users</h1>
+
+<table border="1" cellpadding="10">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Email</th>
+      <th>Created At</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.id %></td>
+        <td><%= user.email %></td>
+        <td><%= user.created_at.strftime('%Y-%m-%d %H:%M') %></td>
+        <td>
+          <%= link_to 'Edit', edit_admin_panel_user_path(user) %> |
+          <%= button_to 'Delete', admin_panel_user_path(user),
+                method: :delete,
+                data: { confirm: 'Are you sure?' },
+                form: { style: 'display:inline' } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<hr>
+
+<h2>Create New User</h2>
+
+<%= form_with(model: [:admin_panel, @user], local: true) do |f| %>
+  <div>
+    <%= f.label :email %><br>
+    <%= f.email_field :email %>
+  </div>
+  <div>
+    <%= f.label :password %><br>
+    <%= f.password_field :password %>
+  </div>
+  <div>
+    <%= f.label :password_confirmation %><br>
+    <%= f.password_field :password_confirmation %>
+  </div>
+  <div>
+    <%= f.submit "Create User" %>
+  </div>
+<% end %>

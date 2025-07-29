@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Welcome</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body style="font-family: Arial; text-align: center; padding: 50px;">
+    <h1>Welcome to Stock App</h1>
+    <p>Please choose your role:</p>
+
+    <div style="margin-top: 30px;">
+      <%= link_to "I am a User", new_user_session_path, class: "btn btn-primary", style: "padding: 10px 20px; font-size: 18px;" %>
+      <%= link_to "I am an Admin", new_admin_session_path, class: "btn btn-danger", style: "margin-left: 20px; padding: 10px 20px; font-size: 18px;" %>
+    </div>
+  </body>
+</html>

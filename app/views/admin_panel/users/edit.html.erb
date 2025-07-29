@@ -1,0 +1,19 @@
+<h1>Edit User</h1>
+
+<%= form_with(model: [:admin_panel, @user], local: true) do |f| %>
+  <div>
+    <%= f.label :email %><br>
+    <%= f.email_field :email %>
+  </div>
+  <div>
+    <%= f.label :password, "Password (leave blank if unchanged)" %><br>
+    <%= f.password_field :password %>
+  </div>
+  <div>
+    <%= f.label :password_confirmation %><br>
+    <%= f.password_field :password_confirmation %>
+  </div>
+  <div>
+    <%= f.submit "Update User" %>
+  </div>
+<% end %>

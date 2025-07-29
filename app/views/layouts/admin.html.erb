@@ -6,13 +6,25 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= stylesheet_link_tag 'adminBoard', media: 'all' %>
     <%= javascript_include_tag 'application' %>
-    <%= javascript_importmap_tags %>
   </head>
   <body>
     <header>
-      <h1>Admin Panel</h1>
+      <div><h2>Admin Dashboard</h2></div>
+      <nav>
+        <%= link_to "Users", admin_panel_users_path %>
+        <%= button_to "Log out", destroy_admin_session_path, method: :delete, form_class: "logout-button" %>
+      </nav>
     </header>
+
+    <% if notice %>
+      <p class="flash notice"><%= notice %></p>
+    <% end %>
+
+    <% if alert %>
+      <p class="flash alert"><%= alert %></p>
+    <% end %>
 
     <main>
       <%= yield %>
