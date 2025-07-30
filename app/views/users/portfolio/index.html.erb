@@ -1,0 +1,22 @@
+<h1>Your Stock Portfolio</h1>
+
+<% if @holdings.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Stock Symbol</th>
+        <th>Shares</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @holdings.each do |holding| %>
+        <tr>
+          <td><%= holding.symbol %></td>
+          <td><%= holding.shares %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>You currently do not own any stocks.</p>
+<% end %>

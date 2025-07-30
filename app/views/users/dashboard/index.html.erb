@@ -1,4 +1,29 @@
 <h1>User Dashboard</h1>
-<p>Welcome, <%= current_user.email %>!</p>
 
+<p><strong>Welcome, <%= current_user.email %></strong></p>
 
+<p><strong>Balance:</strong> $<%= number_with_precision(current_user.balance || 0.0, precision: 2) %></p>
+
+<div style="margin-top: 20px;">
+  <%= form_with url: users_deposit_dashboard_path, method: :post, local: true do %>
+    <div>
+      <%= label_tag :amount, "Deposit Amount" %><br>
+      <%= number_field_tag :amount, nil, step: 0.01, min: 0, required: true %>
+    </div>
+    <div style="margin-top: 10px;">
+      <%= submit_tag "Deposit" %>
+    </div>
+  <% end %>
+</div>
+
+<div style="margin-top: 20px;">
+  <%= form_with url: users_withdraw_dashboard_path, method: :post, local: true do %>
+    <div>
+      <%= label_tag :amount, "Withdraw Amount" %><br>
+      <%= number_field_tag :amount, nil, step: 0.01, min: 0, required: true %>
+    </div>
+    <div style="margin-top: 10px;">
+      <%= submit_tag "Withdraw" %>
+    </div>
+  <% end %>
+</div>

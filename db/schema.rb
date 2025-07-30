@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_29_180303) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_30_103508) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,6 +26,26 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_29_180303) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
 
+  create_table "stock_holdings", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "symbol"
+    t.integer "shares"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_stock_holdings_on_user_id"
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "transaction_type"
+    t.string "symbol"
+    t.integer "shares"
+    t.decimal "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_transactions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -35,7 +55,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_29_180303) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "official_trader"
+    t.decimal "balance"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "stock_holdings", "users"
+  add_foreign_key "transactions", "users"
 end

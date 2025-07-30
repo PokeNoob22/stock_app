@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   # Admin-only namespace 
   namespace :admin_panel do
     get 'dashboard', to: 'dashboard#index'
+    get 'transactions', to: 'transactions#index'
     resources :users, except: [:show] do
       member do
         patch :toggle_trader_status
@@ -20,8 +21,16 @@ Rails.application.routes.draw do
   # User-only namespace
   namespace :users do
     get 'dashboard', to: 'dashboard#index'
+    post 'dashboard/deposit', to: 'dashboard#deposit', as: 'deposit_dashboard'
+    post 'dashboard/withdraw', to: 'dashboard#withdraw', as: 'withdraw_dashboard'
     get 'stocks', to: 'stocks#index'
+    post 'stocks/buy', to: 'stocks#buy', as: 'buy_users_stocks'
+    post 'stocks/sell', to: 'stocks#sell', as: 'sell_users_stocks'
+    get 'portfolio', to: 'portfolio#index'
+    get 'transactions', to: 'transactions#index'
   end
+
+
 
   # Authenticated roots
   authenticated :admin do

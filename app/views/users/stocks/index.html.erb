@@ -1,2 +1,42 @@
-<h1><strong>Stocks</strong></h1>
-<p>This is the placeholder for the stocks page.</p>
+<h1>Stock Price Lookup</h1>
+
+<%= form_with url: users_stocks_path, method: :get, local: true do %>
+  <div>
+    <%= label_tag :symbol, "Enter Stock Symbol (e.g. AAPL, MSFT)" %><br>
+    <%= text_field_tag :symbol, params[:symbol], placeholder: "Stock Symbol", required: true %>
+    <%= submit_tag "Search" %>
+  </div>
+<% end %>
+
+<% if @symbol.present? && @stock_price.present? %>
+
+  <h2><%= @symbol %> Stock</h2>
+  <p>Opening Price: <strong>$<%= @stock_price %></strong></p>
+
+  <!-- Buy Form -->
+  <%= form_with url: users_buy_users_stocks_path, method: :post, local: true do %>
+    <%= hidden_field_tag :symbol, @symbol %>
+    <div>
+      <%= label_tag :shares, "Number of Shares to Buy" %><br>
+      <%= number_field_tag :shares, nil, min: 1, required: true %>
+    </div>
+    <%= submit_tag "Buy Shares" %>
+  <% end %>
+
+  <!-- Sell Form -->
+  <% holding = current_user.stock_holdings.find_by(symbol: @symbol) %>
+  <% if holding && holding.shares > 0 %>
+    <p>You own <strong><%= holding.shares %></strong> shares of <%= @symbol %>.</p>
+
+    <%= form_with url: users_sell_users_stocks_path, method: :post, local: true do %>
+      <%= hidden_field_tag :symbol, @symbol %>
+      <div>
+        <%= label_tag :shares, "Number of Shares to Sell" %><br>
+        <%= number_field_tag :shares, nil, min: 1, max: holding.shares, required: true %>
+      </div>
+      <%= submit_tag "Sell Shares" %>
+    <% end %>
+  <% end %>
+<% elsif params[:symbol].present? %>
+  <p style="color: red;">Could not fetch stock data. Try a different symbol.</p>
+<% end %>

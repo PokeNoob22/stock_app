@@ -13,7 +13,9 @@
     <header>
       <div><h2>Admin Dashboard</h2></div>
       <nav>
-        <%= link_to "Users", admin_panel_users_path %>
+        <%= link_to "Dashboard", admin_panel_dashboard_path %> |
+        <%= link_to "Users", admin_panel_users_path %> |
+        <%= link_to "Transactions", admin_panel_transactions_path %> |
         <%= button_to "Log out", destroy_admin_session_path, method: :delete, form_class: "logout-button" %>
       </nav>
     </header>

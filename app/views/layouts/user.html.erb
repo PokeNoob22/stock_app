@@ -1,18 +1,27 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>User Panel</title>
+    <title>User Dashboard</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all' %>
   </head>
+
   <body>
     <header>
       <div><h2>User Dashboard</h2></div>
-      <nav>
-        <%= link_to "Stocks", users_stocks_path %>
-        <%= button_to "Log out", destroy_user_session_path, method: :delete, class: "btn btn-danger" %>
+      <nav style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <%= link_to "Dashboard", users_dashboard_path %> |
+          <%= link_to "Stocks", users_stocks_path %> |
+          <%= link_to "Portfolio", users_portfolio_path %> |
+          <%= link_to "Transactions", users_transactions_path %> |
+          <%= button_to "Log out", destroy_user_session_path, method: :delete, class: "btn btn-danger" %>
+        </div>
+        <div style="color: white; font-weight: bold; margin-right: 20px;">
+          Balance: $<%= number_with_precision(current_user.balance || 0, precision: 2) %>
+        </div>
       </nav>
     </header>
 
