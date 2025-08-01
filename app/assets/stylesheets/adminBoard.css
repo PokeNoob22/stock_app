@@ -1,11 +1,13 @@
 body {
-  font-family: Arial, sans-serif;
+  background-color: #fffdf3;
+  color: #222;
+  font-family: 'Segoe UI', sans-serif;
   margin: 0;
   padding: 0;
 }
 
 header {
-  background: #333;
+  background-color: #ff8c42;
   color: white;
   padding: 1rem;
   display: flex;
@@ -13,34 +15,72 @@ header {
   align-items: center;
 }
 
-nav a {
+header h2 {
+  margin: 0;
+}
+
+nav a, nav form button {
+  margin-left: 1rem;
   color: white;
-  margin-right: 1.5rem;
   text-decoration: none;
   font-weight: bold;
 }
 
-nav a:hover {
+nav a:hover, nav form button:hover {
   text-decoration: underline;
 }
 
 main {
   padding: 2rem;
 }
+
 .flash.notice {
-  background-color: #d4edda;
-  color: #155724;
-  padding: 10px;
-  border: 1px solid #c3e6cb;
-  margin: 10px 0;
+  background-color: #e2f0cb;
+  color: #274e13;
+  padding: 1rem;
+  border: 1px solid #c1e1a6;
   border-radius: 5px;
+  margin-bottom: 1rem;
 }
 
 .flash.alert {
-  background-color: #f8d7da;
-  color: #721c24;
-  padding: 10px;
+  background-color: #ffe2e2;
+  color: #a80000;
+  padding: 1rem;
   border: 1px solid #f5c6cb;
-  margin: 10px 0;
   border-radius: 5px;
+  margin-bottom: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+th {
+  background-color: #ffc107;
+  color: #222;
+}
+
+tr:nth-child(even) {
+  background-color: #fff5e6;
+}
+
+button.trader-toggle-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.7rem;
+  border-radius: 5px;
+}
+
+button.trader-toggle-button:hover {
+  background-color: #0056b3;
 }

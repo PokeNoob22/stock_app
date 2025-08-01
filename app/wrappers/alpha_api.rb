@@ -9,6 +9,7 @@ class AlphaApi
 
         request = Net::HTTP::Get.new(url)
         
+        request["x-rapidapi-host"] = 'alpha-vantage.p.rapidapi.com'
         response = http.request(request)
         JSON.parse(response.body)
     end

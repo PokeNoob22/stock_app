@@ -37,6 +37,7 @@
       <%= submit_tag "Sell Shares" %>
     <% end %>
   <% end %>
-<% elsif params[:symbol].present? %>
+<% elsif params[:symbol].present? && @stock_price.nil? && flash[:notice].blank? && flash[:alert].blank? %>
   <p style="color: red;">Could not fetch stock data. Try a different symbol.</p>
 <% end %>
+

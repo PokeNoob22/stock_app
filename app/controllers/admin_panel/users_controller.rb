@@ -24,12 +24,27 @@ module AdminPanel
     end
 
     def update
-      if @user.update(user_params)
+      update_params = user_params.dup
+
+    if update_params[:password].blank? && update_params[:password_confirmation].blank?
+      update_params.delete(:password)
+      update_params.delete(:password_confirmation)
+    end
+
+      # Skip reconfirmation if email changed
+      @user.skip_reconfirmation! if @user.email != update_params[:email]
+
+      if @user.update(update_params)
         redirect_to admin_panel_users_path, notice: "User updated successfully."
       else
-        render :edit, alert: "Update failed."
+        flash.now[:alert] = "Update failed: #{@user.errors.full_messages.join(', ')}"
+        render :edit
       end
     end
+
+
+
+
 
     def destroy
       @user.destroy

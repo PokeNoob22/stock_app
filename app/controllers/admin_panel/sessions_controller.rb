@@ -8,6 +8,6 @@ class AdminPanel::SessionsController < Devise::SessionsController
 
   # Redirect to login page after logout
   def after_sign_out_path_for(resource_or_scope)
-    new_admin_session_path
+    root_path
   end
 end

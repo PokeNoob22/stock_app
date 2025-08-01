@@ -9,6 +9,11 @@ module Users
       symbol = params[:symbol] || "MSFT" # Default stock symbol
       data = AlphaApi.get_stock_price(symbol)
 
+      if data["Note"].present?
+        redirect_to users_dashboard_path, alert: "Rate limit hit. Please wait a few seconds and try again."
+        return
+      end
+
       time_series = data['Time Series (Daily)']
       @symbol = data.dig('Meta Data', '2. Symbol')
 
@@ -23,6 +28,12 @@ module Users
       shares = params[:shares].to_i
       symbol = params[:symbol].upcase
       data = AlphaApi.get_stock_price(symbol)
+
+      if data["Note"].present?
+        redirect_to users_stocks_path(symbol: symbol), alert: "Rate limit hit. Please wait a few seconds and try again."
+        return
+      end
+
       price = data.dig("Time Series (Daily)")&.values&.first&.dig("1. open")&.to_f
 
       if price.nil?
@@ -42,7 +53,6 @@ module Users
         holding.shares += shares
         holding.save!
 
-        # Log transaction
         Transaction.create!(
           user: current_user,
           transaction_type: 'buy',
@@ -61,6 +71,12 @@ module Users
       shares = params[:shares].to_i
       symbol = params[:symbol].upcase
       data = AlphaApi.get_stock_price(symbol)
+
+      if data["Note"].present?
+        redirect_to users_stocks_path(symbol: symbol), alert: "Rate limit hit. Please wait a few seconds and try again."
+        return
+      end
+
       price = data.dig("Time Series (Daily)")&.values&.first&.dig("1. open")&.to_f
 
       if price.nil?
@@ -80,7 +96,6 @@ module Users
       holding.destroy if holding.shares == 0
       current_user.increment!(:balance, total_revenue)
 
-      # Log transaction
       Transaction.create!(
         user: current_user,
         transaction_type: 'sell',
